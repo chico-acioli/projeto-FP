@@ -1,0 +1,1 @@
+# Manipulação e armazenamento dos dados
