@@ -95,5 +95,18 @@ def salvar_evento(eventos):
         
             arquivo.write(linha)
 
-  
-    
+def listar_eventos():
+    eventos = carregar_eventos()
+
+    if len(eventos) > 0: 
+        print("Eventos: \n")
+        for evento in eventos:
+            print("ID:", evento["id"])
+            print("Nome:", evento["nome"])
+            print("Tipo:", evento["tipo"])
+            print("Data:", evento["data"])
+            print("Local:", evento["local"])
+            print("Orcamento: R$", evento["orcamento"])
+            print("\n")
+    else:
+        print("Nenhum evento cadastrado.")
