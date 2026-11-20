@@ -127,6 +127,14 @@ def excluir_evento():
         if evento_encontrado_flag == False:
             print("Nenhum evento com esse ID foi encontrado.")
         else:
+            print("Evento encontrado:")
+            print("ID:", evento_encontrado["id"])
+            print("Nome:", evento_encontrado["nome"])
+            print("Tipo:", evento_encontrado["tipo"])
+            print("Data:", evento_encontrado["data"])
+            print("Local:", evento_encontrado["local"])
+            print("Orçamento: R$", evento_encontrado["orcamento"])
+            
             confirmacao = input("Deseja excluir este evento (S/N): ").strip().lower()
             
             if confirmacao == "s":
@@ -138,4 +146,3 @@ def excluir_evento():
 
     else:
         print("Nenhum evento cadastrado.")
-        
