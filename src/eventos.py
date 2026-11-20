@@ -146,3 +146,106 @@ def excluir_evento():
 
     else:
         print("Nenhum evento cadastrado.")
+
+def editar_evento():
+    eventos = carregar_eventos()
+    
+    if len(eventos) > 0:
+        id = input("Digite o ID do evento que deseja editar: ")
+            
+        evento_encontrado_flag = False
+
+        for evento in eventos:
+            if evento["id"] == id:
+                evento_encontrado_flag = True 
+                evento_encontrado = evento
+                break
+        if evento_encontrado_flag == False:
+            print("Nenhum evento com esse ID foi encontrado.")
+        else:
+            print("Evento encontrado:")
+            print("ID:", evento_encontrado["id"])
+            print("Nome:", evento_encontrado["nome"])
+            print("Tipo:", evento_encontrado["tipo"])
+            print("Data:", evento_encontrado["data"])
+            print("Local:", evento_encontrado["local"])
+            print("Orçamento: R$", evento_encontrado["orcamento"])
+            
+            while True:
+               
+                menu_exibir()
+                opcao = input("Escolha uma opção: ").strip()
+
+                if opcao == "6":
+                    break
+                    
+                elif opcao == "1":
+                    novo_nome = input("Digite o novo nome do evento: ").strip().lower()
+                    if novo_nome == "":
+                        print("Nome inválido.")
+                    else:
+                        evento_encontrado["nome"] = novo_nome
+                        break
+                    
+                elif opcao == "2":
+                    novo_tipo = input("Digite o novo tipo de evento: ").strip().lower()
+                    if novo_tipo == "":
+                        print("Tipo inválido.")
+                    else:
+                        evento_encontrado["tipo"] = novo_tipo
+                        break
+                    
+                elif opcao == "3":
+                    nova_data = input("Digite a nova data (DD/MM/AAAA): ").strip()
+                    try:
+                        datetime.strptime(nova_data, "%d/%m/%Y")
+                        evento_encontrado["data"] = nova_data
+                        break
+                    except ValueError:
+                        print("Data inválida.")
+                        
+                elif opcao == "4":
+                    novo_local = input("Digite o novo local do evento: ").strip().lower()
+                    if novo_local == "":
+                        print("Local inválido.")
+                    else:
+                        evento_encontrado["local"] = novo_local
+                        break
+                    
+                elif opcao == "5":
+                    novo_orcamento = input("Digite o novo orçamento: ").strip()
+                    try:
+                        valor = float(novo_orcamento.replace(",", "."))
+                        if valor < 0:
+                            print("O orçamento não pode ser negativo.")
+                            continue
+                        evento_encontrado["orcamento"] = str(valor)
+                        break
+                    except ValueError:
+                        print("Orçamento inválido.")
+                        
+                else:
+                    print("Opção Inválida. Escolha uma opção válida.")
+
+            if opcao != "6":
+                print("Evento editado com  sucesso!")
+                print("ID:", evento_encontrado["id"])
+                print("Nome:", evento_encontrado["nome"])
+                print("Tipo:", evento_encontrado["tipo"])
+                print("Data:", evento_encontrado["data"])
+                print("Local:", evento_encontrado["local"])
+                print("Orçamento: R$", evento_encontrado["orcamento"])
+                
+                salvar_evento(eventos)
+    
+    else:
+        print("Nenhum evento cadastrado.")
+
+def menu_exibir():
+    print("1- Nome")
+    print("2- Tipo")
+    print("3- Data")
+    print("4- Local")
+    print("5- Orçamento")
+    print("6- Cancelar")
+
