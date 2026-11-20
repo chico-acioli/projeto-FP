@@ -63,15 +63,16 @@ def carregar_eventos():
             
             for linha in arquivo:
                 dados = linha.strip().split(";")
-                evento = {
-                    "id": dados[0],
-                    "nome": dados[1],
-                    "tipo": dados[2],
-                    "data": dados[3],
-                    "local": dados[4],
-                    "orcamento": dados[5]
-                }
-                eventos.append(evento)
+                if len(dados) == 6:
+                    evento = {
+                        "id": dados[0],
+                        "nome": dados[1],
+                        "tipo": dados[2],
+                        "data": dados[3],
+                        "local": dados[4],
+                        "orcamento": dados[5]
+                    }
+                    eventos.append(evento)
 
     except FileNotFoundError:
         return eventos 
@@ -80,21 +81,19 @@ def carregar_eventos():
 
 def salvar_evento(eventos):
     
-    try:
-        with open("eventos.csv", "w", newline= "", encoding= "utf-8") as arquivo:
-                
-            for evento in eventos:
-                linha = (
-                evento["id"] + ";" +
-                evento["nome"] + ";" +
-                evento["tipo"] + ";" +
-                evento["data"] + ";" +
-                evento["local"] + ";" +
-                evento["orcamento"] + "\n"
-            )
+    with open("eventos.csv", "w", newline= "", encoding= "utf-8") as arquivo:
             
+        for evento in eventos:
+            linha = (
+            evento["id"] + ";" +
+            evento["nome"] + ";" +
+            evento["tipo"] + ";" +
+            evento["data"] + ";" +
+            evento["local"] + ";" +
+            evento["orcamento"] + "\n"
+        )
+        
             arquivo.write(linha)
-    
-    except FileNotFoundError:
-        print("Erro ao salvar evento. Arquivo não encontrado.")
+
+  
     
