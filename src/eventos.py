@@ -110,3 +110,32 @@ def listar_eventos():
             print("\n")
     else:
         print("Nenhum evento cadastrado.")
+
+def excluir_evento():
+    eventos = carregar_eventos()
+
+    if len(eventos) > 0:
+        id = input("Digite o ID do evento que deseja excluir: ")
+        
+        evento_encontrado_flag = False
+
+        for evento in eventos:
+            if evento["id"] == id:
+                evento_encontrado_flag = True 
+                evento_encontrado = evento
+                break
+        if evento_encontrado_flag == False:
+            print("Nenhum evento com esse ID foi encontrado.")
+        else:
+            confirmacao = input("Deseja excluir este evento (S/N): ").strip().lower()
+            
+            if confirmacao == "s":
+                eventos.remove(evento_encontrado)
+                salvar_evento(eventos)
+                print("Evento excluído com sucesso!")
+            else:
+                print("Exclusão cancelada!")
+
+    else:
+        print("Nenhum evento cadastrado.")
+        
