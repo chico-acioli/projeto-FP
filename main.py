@@ -1,6 +1,10 @@
 import os
 
 try:
+    from src import arquivos
+except ImportError:
+    arquivos = None
+try:
     from src import eventos
 except ImportError:
     eventos = None
@@ -35,8 +39,20 @@ def chamar_funcao(modulo, funcao_nome):
         return
     getattr(modulo, funcao_nome)() #vai buscar a função pelo nome em texto e os "()" é pra executar dps
 
+def salvar_dados():
+    #meio auto explicativo
+    if arquivos is None or tarefas is None:
+        return
+    arquivos.salvar_tarefas(tarefas.tarefas)
+
 def pausar():
     input("\nPara voltar ao menu, pressione 'enter' ")
+
+def carregar_dados():
+    #ela vai carregar os dados salvos nos arquivos e iniciar o programa
+    if arquivos is None or tarefas in None:
+        return
+    tarefas.tarefas = arquivos.carregar_tarefas()
 
 def main():
     while True:
