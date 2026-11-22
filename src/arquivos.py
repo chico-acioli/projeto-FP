@@ -4,6 +4,7 @@ import os
 PASTA_PROJETO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PASTA_DADOS = os.path.join(PASTA_PROJETO, "dados")
 ARQUIVO_TAREFAS = os.path.join(PASTA_DADOS, "tarefas.csv")
+ARQUIVO_EVENTOS = os.path.join(PASTA_DADOS, "eventos.csv")
 
 
 def preparar_pasta_dados():
@@ -84,3 +85,51 @@ def carregar_tarefas():
         print(f"\nErro ao carregar tarefas: {erro}")
 
     return tarefas
+
+
+def salvar_eventos(eventos, acrescentar=False):
+    """Salva eventos; para acrescentar, envie somente os eventos novos."""
+    try:
+        # Organiza os campos na mesma ordem do cabeçalho do CSV.
+        linhas = [f"{evento.get('id', '')};"
+            f"{evento.get('nome', '')};"
+            f"{evento.get('tipo', '')};"
+            f"{evento.get('data', '')};"
+            f"{evento.get('local', '')};"
+            f"{evento.get('orcamento', '')}"
+            for evento in eventos]
+        
+    except AttributeError as erro:
+        print(f"\nErro ao salvar eventos: {erro}")
+        return False
+
+    # Para editar ou excluir, envie a lista completa sem ativar acrescentar.
+    return salvar_registros(ARQUIVO_EVENTOS, "id;nome;tipo;data;local;orcamento", linhas, acrescentar)
+
+def carregar_eventos():
+    """Lê os eventos do CSV ou retorna uma lista vazia."""
+
+    eventos = []
+
+    try:
+        with open(ARQUIVO_EVENTOS, "r", newline="", encoding="utf-8") as arquivo:
+            # Lê as linhas; a primeira é o cabeçalho.
+            linhas = arquivo.readlines()
+
+        # Separa os campos e ignora linhas com quantidade incorreta de colunas.
+        for linha in linhas[1:]:
+            dados = linha.strip().split(";")
+            if len(dados) != 6:
+                continue
+
+            # Mantém os campos no formato de texto usado pelo módulo de eventos.
+            eventos.append({"id": dados[0],
+            "nome": dados[1], "tipo": dados[2], "data": dados[3], "local": dados[4], "orcamento": dados[5]})
+    
+    except FileNotFoundError:
+        # Permite iniciar sem eventos cadastrados.
+        preparar_pasta_dados()
+    except (OSError, UnicodeDecodeError) as erro:
+        print(f"\nErro ao carregar eventos: {erro}")
+
+    return eventos
