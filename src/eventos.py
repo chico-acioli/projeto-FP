@@ -1,6 +1,16 @@
 # Gerenciamento de eventos
 from datetime import datetime
+from src import arquivos
+from src.sugestoes import calcular_dias_restantes
 
+
+def texto_contagem(data):
+    dias = calcular_dias_restantes(data)
+    if dias > 0:
+        return f"Faltam {dias} dias, uhull!"
+    elif dias == 0:
+        return "Aviso: o evento é HOJE!!!"
+    return f"O evento já aconteceu há {abs(dias)} dias"
 
 def cadastrar_evento():
     nome = input("Digite o nome do evento: ").strip().lower()
@@ -56,44 +66,10 @@ def cadastrar_evento():
     salvar_evento(eventos)
 
 def carregar_eventos():
-    eventos = []
-
-    try:
-        with open("eventos.csv", "r", newline= "", encoding= "utf-8") as arquivo:
-            
-            for linha in arquivo:
-                dados = linha.strip().split(";")
-                if len(dados) == 6:
-                    evento = {
-                        "id": dados[0],
-                        "nome": dados[1],
-                        "tipo": dados[2],
-                        "data": dados[3],
-                        "local": dados[4],
-                        "orcamento": dados[5]
-                    }
-                    eventos.append(evento)
-
-    except FileNotFoundError:
-        return eventos 
-
-    return eventos 
+    return arquivos.carregar_eventos()
 
 def salvar_evento(eventos):
-    
-    with open("eventos.csv", "w", newline= "", encoding= "utf-8") as arquivo:
-            
-        for evento in eventos:
-            linha = (
-            evento["id"] + ";" +
-            evento["nome"] + ";" +
-            evento["tipo"] + ";" +
-            evento["data"] + ";" +
-            evento["local"] + ";" +
-            evento["orcamento"] + "\n"
-        )
-        
-            arquivo.write(linha)
+    arquivos.salvar_eventos(eventos)
 
 def listar_eventos():
     eventos = carregar_eventos()
@@ -106,12 +82,14 @@ def listar_eventos():
             print("Tipo:", evento["tipo"])
             print("Data:", evento["data"])
             print("Local:", evento["local"])
-            print("Orcamento: R$", evento["orcamento"])
+            print("Contagem:", texto_contagem(evento["data"]))
+            print("Orçamento: R$", evento["orcamento"])
             print("\n")
     else:
         print("Nenhum evento cadastrado.")
 
 def excluir_evento():
+
     eventos = carregar_eventos()
 
     if len(eventos) > 0:
@@ -138,8 +116,10 @@ def excluir_evento():
             confirmacao = input("Deseja excluir este evento (S/N): ").strip().lower()
             
             if confirmacao == "s":
+                from src import tarefas   # import aqui dentro, só quando for usado
                 eventos.remove(evento_encontrado)
                 salvar_evento(eventos)
+                tarefas.remover_tarefas_evento(int(evento_encontrado["id"]))
                 print("Evento excluído com sucesso!")
             else:
                 print("Exclusão cancelada!")
@@ -249,3 +229,25 @@ def menu_exibir():
     print("5- Orçamento")
     print("6- Cancelar")
 
+def menu_eventos():
+    while True:
+        print("\n=== EVENTOS ===")
+        print("1 - Cadastrar evento")
+        print("2 - Listar eventos")
+        print("3 - Editar evento")
+        print("4 - Excluir evento")
+        print("0 - Voltar")
+        opcao = input("Escolha uma opção: ").strip()
+
+        if opcao == "1":
+            cadastrar_evento()
+        elif opcao == "2":
+            listar_eventos()
+        elif opcao == "3":
+            editar_evento()
+        elif opcao == "4":
+            excluir_evento()
+        elif opcao == "0":
+            break
+        else:
+            print("Opção inválida!")

@@ -39,22 +39,23 @@ def chamar_funcao(modulo, funcao_nome):
         return
     getattr(modulo, funcao_nome)() #vai buscar a função pelo nome em texto e os "()" é pra executar dps
 
-def salvar_dados():
-    #meio auto explicativo
-    if arquivos is None or tarefas is None:
-        return
-    arquivos.salvar_tarefas(tarefas.tarefas)
-
 def pausar():
     input("\nPara voltar ao menu, pressione 'enter' ")
 
 def carregar_dados():
     #ela vai carregar os dados salvos nos arquivos e iniciar o programa
-    if arquivos is None or tarefas in None:
+    if arquivos is None or tarefas is None:
         return
-    tarefas.tarefas = arquivos.carregar_tarefas()
+    tarefas.carregar(arquivos.carregar_tarefas())
+
+def salvar_dados():
+    #meio auto explicativo
+    if arquivos is None or tarefas is None:
+        return
+    arquivos.salvar_tarefas(tarefas.obter_todas())
 
 def main():
+    carregar_dados()          #ela vai rodar uma vez antes do menu aparecer
     while True:
         limpar_tela()
         menu_exibir()
@@ -72,6 +73,7 @@ def main():
         else:
             print("\nOpção inválida, tente novamente com um número do menu.")
 
+        salvar_dados()        #ela vai salvar depois de cada ação
         pausar()
 
 
