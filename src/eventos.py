@@ -116,10 +116,11 @@ def excluir_evento():
             confirmacao = input("Deseja excluir este evento (S/N): ").strip().lower()
             
             if confirmacao == "s":
-                from src import tarefas   # import aqui dentro, só quando for usado
+                from src import tarefas, convidados   #usar o import aqui dentro pra ser usado so por aqui
                 eventos.remove(evento_encontrado)
                 salvar_evento(eventos)
                 tarefas.remover_tarefas_evento(int(evento_encontrado["id"]))
+                convidados.remover_convidados_evento(int(evento_encontrado["id"]))
                 print("Evento excluído com sucesso!")
             else:
                 print("Exclusão cancelada!")

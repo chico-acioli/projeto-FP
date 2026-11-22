@@ -19,6 +19,11 @@ try:
 except ImportError:
     sugestoes = None
 
+try:
+    from src import convidados
+except ImportError:
+    convidados = None
+
 def limpar_tela():
     """Essa função limpa o terminal. Para Windows, usa 'cls', para Linux ou Mac, usa 'clear'"""
     os.system("cls" if os.name == "nt" else "clear")
@@ -30,7 +35,8 @@ def menu_exibir():
     print("1 - Eventos")
     print("2 - Tarefas")
     print("3 - Sugestões")
-    print("4 - Sair")
+    print("4 - Convidados")
+    print("5 - Sair")
     print("-" * 36)
 
 def chamar_funcao(modulo, funcao_nome):
@@ -68,6 +74,8 @@ def main():
         elif opcao == "3":
             chamar_funcao(sugestoes, "menu_sugestoes")
         elif opcao == "4":
+            chamar_funcao(convidados, "menu_convidados")
+        elif opcao == "5":
             print("\nTe espero na próxima festinha!")
             break
         else:
