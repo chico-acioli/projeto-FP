@@ -7,7 +7,6 @@ ARQUIVO_EVENTOS = os.path.join(PASTA_DADOS, "eventos.csv")
 
 
 def preparar_pasta_dados():
-    """Cria a pasta de dados se ela ainda não existir."""
     try:
         os.makedirs(PASTA_DADOS, exist_ok=True)
     except OSError as erro:
@@ -15,7 +14,6 @@ def preparar_pasta_dados():
 
 
 def salvar_registros(caminho, cabecalho, linhas, acrescentar):
-    """Acrescenta linhas novas ou regrava o arquivo completo."""
     
     preparar_pasta_dados()
 
@@ -91,7 +89,6 @@ def salvar_eventos(eventos, acrescentar=False):
     return salvar_registros(ARQUIVO_EVENTOS, "id;nome;tipo;data;local;orcamento", linhas, acrescentar)
 
 def carregar_eventos():
-    """Lê os eventos do CSV ou retorna uma lista vazia."""
 
     eventos = []
 
