@@ -148,14 +148,12 @@ def obter_todas():
 
 
 def carregar(lista):
-    # troca as tarefas pelas que vieram do arquivo
     tarefas.clear()
     for t in lista:
         tarefas.append(t)
 
 
 def escolher_evento():
-    # pergunta qual evento e devolve (id, orçamento) ou (None, None)
     if eventos is None:
         print("Módulo de eventos não encontrado.")
         return None, None
@@ -176,7 +174,6 @@ def escolher_evento():
         return None, None
 
     for e in lista:
-        # no eventos.py o id e o orçamento são guardados como texto
         if int(e["id"]) == id_evento:
             return id_evento, float(e["orcamento"])
 
@@ -185,7 +182,6 @@ def escolher_evento():
 
 
 def menu_tarefas(evento_id=None, orcamento_total=None):
-    # o main.py chama essa função sem argumentos, aí ela pergunta o evento
     if evento_id is None:
         evento_id, orcamento_total = escolher_evento()
         if evento_id is None:

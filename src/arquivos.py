@@ -1,16 +1,14 @@
 import os
 
-# Localiza os dados a partir da pasta do projeto.
-PASTA_PROJETO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))    # Localiza a pasta principal do projeto a partir da localização deste arquivo.
-PASTA_DADOS = os.path.join(PASTA_PROJETO, "dados")    # Cria o caminho da pasta "dados", localizada dentro da pasta principal do projeto.
-ARQUIVO_TAREFAS = os.path.join(PASTA_DADOS, "tarefas.csv")   # Cria o caminho completo do arquivo tarefas.csv dentro da pasta "dados".
-ARQUIVO_EVENTOS = os.path.join(PASTA_DADOS, "eventos.csv")   # Cria o caminho completo do arquivo eventos.csv dentro da pasta "dados".
+PASTA_PROJETO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))    
+PASTA_DADOS = os.path.join(PASTA_PROJETO, "dados")    
+ARQUIVO_TAREFAS = os.path.join(PASTA_DADOS, "tarefas.csv")   
+ARQUIVO_EVENTOS = os.path.join(PASTA_DADOS, "eventos.csv")   
 
 
 def preparar_pasta_dados():
     """Cria a pasta de dados se ela ainda não existir."""
     try:
-        # exist_ok evita erro quando a pasta já está criada.
         os.makedirs(PASTA_DADOS, exist_ok=True)
     except OSError as erro:
         print(f"Erro ao preparar a pasta de dados: {erro}")
@@ -22,14 +20,11 @@ def salvar_registros(caminho, cabecalho, linhas, acrescentar):
     preparar_pasta_dados()
 
     try:
-        # "a" mantém os dados existentes; "w" substitui a lista inteira.
         modo = "a" if acrescentar else "w"
         with open(caminho, modo, newline="", encoding="utf-8") as arquivo:
-            # O cabeçalho é escrito ao regravar ou criar um arquivo vazio.
             if not acrescentar or os.path.getsize(caminho) == 0:
                 arquivo.write(cabecalho + "\n")
 
-            # Cada tarefa é gravada em uma linha do CSV.
             for linha in linhas:
                 arquivo.write(linha + "\n")
 
@@ -40,9 +35,7 @@ def salvar_registros(caminho, cabecalho, linhas, acrescentar):
 
 
 def salvar_tarefas(tarefas, acrescentar=False):
-    """Salva tarefas; para acrescentar, envie somente as tarefas novas."""
     try:
-        # Organiza os campos na mesma ordem do cabeçalho do CSV.
         linhas = [f"{tarefa.get('id', '')};"
             f"{tarefa.get('id_evento', '')};"
             f"{tarefa.get('nome', '')};"
@@ -53,33 +46,27 @@ def salvar_tarefas(tarefas, acrescentar=False):
         print("\nErro ao salvar tarefas:", erro)
         return False
 
-    # Para editar ou excluir, envie a lista completa sem ativar acrescentar.
     return salvar_registros(ARQUIVO_TAREFAS, "id;id_evento;nome;custo", linhas, acrescentar)
 
 
 def carregar_tarefas():
-    """Lê as tarefas do CSV ou retorna uma lista vazia."""
     tarefas = []
 
     try:
         with open(ARQUIVO_TAREFAS, "r", newline="", encoding="utf-8") as arquivo:
-            # Lê as linhas; a primeira é o cabeçalho.
             linhas = arquivo.readlines()
 
-        # Separa os campos e ignora linhas com quantidade incorreta de colunas.
         for linha in linhas[1:]:
             dados = linha.strip().split(";")
             if len(dados) != 4:
                 continue
 
             try:
-                # Converte os IDs e o custo para os tipos usados pelo programa.
                 tarefas.append({"id": int(dados[0]), "id_evento": int(dados[1]), "nome": dados[2], "custo": float(dados[3].replace(",", "."))})
             
             except ValueError:
                 continue
     except FileNotFoundError:
-        # Permite iniciar sem tarefas cadastradas.
         preparar_pasta_dados()
     except (OSError, UnicodeDecodeError) as erro:
         print(f"\nErro ao carregar tarefas: {erro}")
@@ -88,9 +75,7 @@ def carregar_tarefas():
 
 
 def salvar_eventos(eventos, acrescentar=False):
-    """Salva eventos; para acrescentar, envie somente os eventos novos."""
     try:
-        # Organiza os campos na mesma ordem do cabeçalho do CSV.
         linhas = [f"{evento.get('id', '')};"
             f"{evento.get('nome', '')};"
             f"{evento.get('tipo', '')};"
@@ -103,7 +88,6 @@ def salvar_eventos(eventos, acrescentar=False):
         print(f"\nErro ao salvar eventos: {erro}")
         return False
 
-    # Para editar ou excluir, envie a lista completa sem ativar acrescentar.
     return salvar_registros(ARQUIVO_EVENTOS, "id;nome;tipo;data;local;orcamento", linhas, acrescentar)
 
 def carregar_eventos():
@@ -113,21 +97,17 @@ def carregar_eventos():
 
     try:
         with open(ARQUIVO_EVENTOS, "r", newline="", encoding="utf-8") as arquivo:
-            # Lê as linhas; a primeira é o cabeçalho.
             linhas = arquivo.readlines()
 
-        # Separa os campos e ignora linhas com quantidade incorreta de colunas.
         for linha in linhas[1:]:
             dados = linha.strip().split(";")
             if len(dados) != 6:
                 continue
 
-            # Mantém os campos no formato de texto usado pelo módulo de eventos.
             eventos.append({"id": dados[0],
             "nome": dados[1], "tipo": dados[2], "data": dados[3], "local": dados[4], "orcamento": dados[5]})
     
     except FileNotFoundError:
-        # Permite iniciar sem eventos cadastrados.
         preparar_pasta_dados()
     except (OSError, UnicodeDecodeError) as erro:
         print(f"\nErro ao carregar eventos: {erro}")

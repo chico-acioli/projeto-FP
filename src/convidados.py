@@ -9,7 +9,6 @@ CABECALHO  = "id;id_evento;nome;status"
 STATUS_VALIDOS = ("pendente", "confirmado", "recusou")
 
 def salvar_convidados(lista):
-    #Vai gravar todos os convidados do arquivo csv e reescreve-lo por inteiro
     linhas = []
     for c in lista:
         linhas.append(f"{c['id']};{c['id_evento']};{c['nome']};{c['status']}")
@@ -17,7 +16,6 @@ def salvar_convidados(lista):
 
 
 def carregar_convidados():
-    #vai ler os convidados do arquivo csv ou devolver uma lista vazia
     lista = []
     try:
         with open(ARQUIVO_CONVIDADOS, "r", newline="", encoding="utf-8") as arquivo:
@@ -44,7 +42,6 @@ def carregar_convidados():
     return lista
 
 def gerar_id(lista):
-    #vai devolver o próximo id que estiver livre
     maior = 0
     for c in lista:
         if c["id"] > maior:
@@ -53,21 +50,18 @@ def gerar_id(lista):
 
 
 def buscar_convidado(lista, id_convidado, id_evento):
-    #irá procurar o convidado pelo id do evento
     for c in lista:
         if c["id"] == id_convidado and c["id_evento"] == id_evento:
             return c
     return None
 
 def existem_convidados(lista, id_evento):
-    #ela vai dizer se o evento tem ao menos um convidado
     for c in lista:
         if c["id_evento"] == id_evento:
             return True
     return False
 
 def ler_id(texto):
-    #vai pedir um número para o usuário que se ele for inválido vai sair None
     try:
         return int(input(texto))
     except ValueError:
