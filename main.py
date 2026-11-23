@@ -25,11 +25,10 @@ except ImportError:
     convidados = None
 
 def limpar_tela():
-    """Essa função limpa o terminal. Para Windows, usa 'cls', para Linux ou Mac, usa 'clear'"""
     os.system("cls" if os.name == "nt" else "clear")
 
 def menu_exibir():
-    print("=" * 36) #pra fazer aquelas linhas decorativa supimpa
+    print("=" * 36)
     print("          ORGANIZA FESTA")
     print("=" * 36)
     print("1 - Eventos")
@@ -40,28 +39,26 @@ def menu_exibir():
     print("-" * 36)
 
 def chamar_funcao(modulo, funcao_nome):
-    if modulo is None or not hasattr(modulo, funcao_nome): #hasattr é pra perguntar se um objeto tem algo com determinado nome, e vai responder True ou False
+    if modulo is None or not hasattr(modulo, funcao_nome): 
         print("\nFuncionalidade em desenvolvimento, tente novamente posteriormente")
         return
-    getattr(modulo, funcao_nome)() #vai buscar a função pelo nome em texto e os "()" é pra executar dps
+    getattr(modulo, funcao_nome)() 
 
 def pausar():
     input("\nPara voltar ao menu, pressione 'enter' ")
 
 def carregar_dados():
-    #ela vai carregar os dados salvos nos arquivos e iniciar o programa
     if arquivos is None or tarefas is None:
         return
     tarefas.carregar(arquivos.carregar_tarefas())
 
 def salvar_dados():
-    #meio auto explicativo
     if arquivos is None or tarefas is None:
         return
     arquivos.salvar_tarefas(tarefas.obter_todas())
 
 def main():
-    carregar_dados()          #ela vai rodar uma vez antes do menu aparecer
+    carregar_dados()          
     while True:
         limpar_tela()
         menu_exibir()
@@ -81,12 +78,12 @@ def main():
         else:
             print("\nOpção inválida, tente novamente com um número do menu.")
 
-        salvar_dados()        #ela vai salvar depois de cada ação
+        salvar_dados()        
         pausar()
 
 
-if __name__ == "__main__":  #'só rode isso se este arquivo foi executado diretamente', é isso que significa essa linha
+if __name__ == "__main__":  
     try:
         main()
-    except (KeyboardInterrupt, EOFError): #KeyboardInterrupt acontece quando o cara aperta Ctrl+C, e o EOFError acontece quando a entrada é fechada de repente (Ctrl+D/Ctrl+Z)
+    except (KeyboardInterrupt, EOFError): 
         print("\n\nPrograma encerrado.")
