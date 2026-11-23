@@ -126,6 +126,10 @@ Responsável pela persistência dos dados, realizando a gravação e leitura das
 
 Responsável pelas sugestões personalizadas de acordo com as características do evento.
 
+### `src/convidados.py`
+
+Responsável pela incrementação da funcionalidade extra de convidados, onde monta um menu para cadastrar, remover, listar, alterar o status de presença e ver o resumo de custo por convidado.
+
 ### `dados/`
 
 Armazena os arquivos `.csv` utilizados pelo sistema para manter os registros.
