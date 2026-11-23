@@ -17,26 +17,26 @@ def cadastrar_evento():
     tipo = input("Digite o tipo do evento: ").strip().lower()
     data = input("Digite a data do evento (DD/MM/AAAA): ").strip()
     local = input("Digite o local do evento: ").strip().lower()
-    orcamento = input("Digite o orçamento do evento: ").strip()
+    orcamento = input("Digite o orçamento do evento (ex: 800 ou 800,50): ").strip()
 
     if nome == "" or tipo == "" or data == "" or local == "" or orcamento == "":
-        print("Preencha todos os campos!")
+        print("\nPreencha todos os campos!")
         return 
 
     try:
         datetime.strptime(data, "%d/%m/%Y")
     except ValueError:
-        print("Data Inválida. Use esse formato (DD/MM/AAAA).")
-        return
+        print("\nData Inválida. Use esse formato (DD/MM/AAAA).")
+        return 
 
     try:
-        valor = float(orcamento.replace(",", "."))
+        valor = float(orcamento.replace(".", "").replace(",", "."))
     except ValueError:
-        print("Orçamento Inválido.")
+        print("\nOrçamento Inválido.")
         return
 
-    if valor < 0: 
-        print("O orçamento não pode ser negativo.")
+    if valor <= 0: 
+        print("\nO orçamento deve ser maior que zero.")
         return 
 
     eventos = carregar_eventos()
@@ -58,7 +58,7 @@ def cadastrar_evento():
         "tipo": tipo,
         "data": data,
         "local": local,
-        "orcamento": str(valor)
+        "orcamento": f"{valor:.2f}"
     }
 
     eventos.append(evento)
@@ -75,7 +75,7 @@ def listar_eventos():
     eventos = carregar_eventos()
 
     if len(eventos) > 0: 
-        print("Eventos: \n")
+        print("\nEventos: \n")
         for evento in eventos:
             print("ID:", evento["id"])
             print("Nome:", evento["nome"])
@@ -86,7 +86,7 @@ def listar_eventos():
             print("Orçamento: R$", evento["orcamento"])
             print("\n")
     else:
-        print("Nenhum evento cadastrado.")
+        print("\nNenhum evento cadastrado.")
 
 def excluir_evento():
 
@@ -103,27 +103,32 @@ def excluir_evento():
                 evento_encontrado = evento
                 break
         if evento_encontrado_flag == False:
-            print("Nenhum evento com esse ID foi encontrado.")
+            print("\nNenhum evento com esse ID foi encontrado.")
         else:
-            print("Evento encontrado:")
+            print("\nEvento encontrado:")
             print("ID:", evento_encontrado["id"])
             print("Nome:", evento_encontrado["nome"])
             print("Tipo:", evento_encontrado["tipo"])
             print("Data:", evento_encontrado["data"])
             print("Local:", evento_encontrado["local"])
             print("Orçamento: R$", evento_encontrado["orcamento"])
+
+            while True:
+                confirmacao = input("Deseja excluir este evento (S/N): ").strip().lower()
             
-            confirmacao = input("Deseja excluir este evento (S/N): ").strip().lower()
-            
-            if confirmacao == "s":
-                from src import tarefas, convidados   #usar o import aqui dentro pra ser usado so por aqui
-                eventos.remove(evento_encontrado)
-                salvar_evento(eventos)
-                tarefas.remover_tarefas_evento(int(evento_encontrado["id"]))
-                convidados.remover_convidados_evento(int(evento_encontrado["id"]))
-                print("Evento excluído com sucesso!")
-            else:
-                print("Exclusão cancelada!")
+                if confirmacao == "s":
+                    from src import tarefas, convidados   #usar o import aqui dentro pra ser usado so por aqui
+                    eventos.remove(evento_encontrado)
+                    salvar_evento(eventos)
+                    tarefas.remover_tarefas_evento(int(evento_encontrado["id"]))
+                    convidados.remover_convidados_evento(int(evento_encontrado["id"]))
+                    print("Evento excluído com sucesso!")
+                    break
+                elif confirmacao == "n": 
+                    print("Exclusão cancelada!")
+                    break
+                else:
+                    print("Resposta Inválida. Digite S para sim ou N para não.")
 
     else:
         print("Nenhum evento cadastrado.")
@@ -142,9 +147,9 @@ def editar_evento():
                 evento_encontrado = evento
                 break
         if evento_encontrado_flag == False:
-            print("Nenhum evento com esse ID foi encontrado.")
+            print("\nNenhum evento com esse ID foi encontrado.")
         else:
-            print("Evento encontrado:")
+            print("\nEvento encontrado:")
             print("ID:", evento_encontrado["id"])
             print("Nome:", evento_encontrado["nome"])
             print("Tipo:", evento_encontrado["tipo"])
@@ -155,7 +160,7 @@ def editar_evento():
             while True:
                
                 menu_exibir()
-                opcao = input("Escolha uma opção: ").strip()
+                opcao = input("Escolha a opção que deseja editar: ").strip()
 
                 if opcao == "6":
                     break
@@ -209,7 +214,7 @@ def editar_evento():
                     print("Opção Inválida. Escolha uma opção válida.")
 
             if opcao != "6":
-                print("Evento editado com  sucesso!")
+                print("\nEvento editado com sucesso!")
                 print("ID:", evento_encontrado["id"])
                 print("Nome:", evento_encontrado["nome"])
                 print("Tipo:", evento_encontrado["tipo"])
@@ -223,7 +228,7 @@ def editar_evento():
         print("Nenhum evento cadastrado.")
 
 def menu_exibir():
-    print("1- Nome")
+    print("\n1- Nome")
     print("2- Tipo")
     print("3- Data")
     print("4- Local")
