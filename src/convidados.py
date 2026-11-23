@@ -187,7 +187,6 @@ def mostrar_resumo(lista, id_evento, orcamento_total):
         print(f"Orçamento por convidado confirmado: R$ {orcamento_total / confirmados:.2f}")
 
 def remover_convidados_evento(id_evento):
-    #essa função vai ser usada quando um evento for exluido e vai apagar os convidados que haviam sido cadastrados
     lista = carregar_convidados()
     restantes = []
     for c in lista:
