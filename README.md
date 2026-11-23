@@ -79,6 +79,10 @@ O sistema pode apresentar sugestões de acordo com informações do evento, como
 - Tipo de evento;
 - Quantidade de convidados.
 
+### Funcionalidade Extra 
+
+Lista de convidados com confirmação de presença: cadastrar nome e se confirmou. Combina com o enunciado, que cita controle de convidados e usa o nº de convidados nas sugestões.
+
 ---
 
 ## Estrutura do projeto
@@ -102,31 +106,27 @@ Organiza_Festa/
 └── README.md
 ```
 
-### 📁 `main.py`
+### `main.py`
 
 Responsável pelo funcionamento principal do sistema, incluindo o menu e a interação com o usuário.
 
-### 📁 `src/eventos.py`
+### `src/eventos.py`
 
 Contém as funções relacionadas ao gerenciamento dos eventos, como cadastro, consulta, edição e exclusão.
 
-### 📁 `src/tarefas.py`
+### `src/tarefas.py`
 
 Responsável pelo gerenciamento das tarefas e dos custos associados aos eventos.
 
-### 📁 `src/arquivos.py`
+### `src/arquivos.py`
 
 Responsável pela persistência dos dados, realizando a gravação e leitura das informações nos arquivos `.csv`.
 
-### 📁 `src/sugestoes.py`
+### `src/sugestoes.py`
 
 Responsável pelas sugestões personalizadas de acordo com as características do evento.
 
-### 📁 `src/utils.py`
-
-Contém funções auxiliares utilizadas por diferentes partes do sistema.
-
-### 📁 `dados/`
+### `dados/`
 
 Armazena os arquivos `.csv` utilizados pelo sistema para manter os registros.
 

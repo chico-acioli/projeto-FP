@@ -1,10 +1,10 @@
 import os
 
 # Localiza os dados a partir da pasta do projeto.
-PASTA_PROJETO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PASTA_DADOS = os.path.join(PASTA_PROJETO, "dados")
-ARQUIVO_TAREFAS = os.path.join(PASTA_DADOS, "tarefas.csv")
-ARQUIVO_EVENTOS = os.path.join(PASTA_DADOS, "eventos.csv")
+PASTA_PROJETO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))    # Localiza a pasta principal do projeto a partir da localização deste arquivo.
+PASTA_DADOS = os.path.join(PASTA_PROJETO, "dados")    # Cria o caminho da pasta "dados", localizada dentro da pasta principal do projeto.
+ARQUIVO_TAREFAS = os.path.join(PASTA_DADOS, "tarefas.csv")   # Cria o caminho completo do arquivo tarefas.csv dentro da pasta "dados".
+ARQUIVO_EVENTOS = os.path.join(PASTA_DADOS, "eventos.csv")   # Cria o caminho completo do arquivo eventos.csv dentro da pasta "dados".
 
 
 def preparar_pasta_dados():
