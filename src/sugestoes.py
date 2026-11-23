@@ -15,7 +15,7 @@ def exibir_sugestoes(tipo_evento, convidados):
 
     print("\n========== SUGESTÕES PARA O EVENTO ==========")
 
-    if tipo_evento == "aniversario":
+    if tipo_evento == "aniversario" or tipo_evento == "aniversário":
 
         if convidados <= 20:
             print("Fornecedor: encomendar salgadinhos e bolo.")
@@ -77,15 +77,14 @@ def exibir_sugestoes(tipo_evento, convidados):
 
     else:
         print("Tipo de evento não reconhecido.")
-        print("Sugestão: organize fornecedores e atividades de acordo")
-        print("com o perfil dos convidados.")
+        print("Sugestão: organize fornecedores e atividades de acordo com o perfil dos convidados.")
 
 
 def menu_sugestoes():
 
-    print("\n========== CONTAGEM REGRESSIVA E SUGESTOES ==========")
+    print("\n========== CONTAGEM REGRESSIVA E SUGESTÕES ==========")
 
-    tipo_evento = input("Digite o tipo do evento (aniversario, casamento ou reuniao): ").strip().lower()
+    tipo_evento = input("Digite o tipo do evento (aniversário, casamento ou reunião): ").strip().lower()
 
     while True:
         try:
@@ -97,7 +96,7 @@ def menu_sugestoes():
                 break
 
         except ValueError:
-            print("Digite uma quantidade valida de convidados.")
+            print("Digite uma quantidade válida de convidados.")
 
     while True:
         data_evento = input("Digite a data do evento (DD/MM/AAAA): ")
@@ -108,7 +107,7 @@ def menu_sugestoes():
             break
 
         except ValueError:
-            print("Data invalida! Digite novamente no formato DD/MM/AAAA.")
+            print("Data inválida! Digite novamente no formato DD/MM/AAAA.")
 
 
     print("\n========== CONTAGEM REGRESSIVA ==========")
@@ -120,7 +119,7 @@ def menu_sugestoes():
         print("O evento acontece hoje!")
 
     else:
-        print(f"Esse evento ja aconteceu ha {abs(dias)} dias.")
+        print(f"Este evento já aconteceu há {abs(dias)} dias.")
 
     exibir_sugestoes(tipo_evento, convidados)
 
